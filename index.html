@@ -62,7 +62,7 @@
   }
 
   .wrapper {
-    max-width: 720px;
+    max-width: 780px;
     margin: 0 auto;
     padding: 2.5rem 1.5rem 5rem;
   }
@@ -95,7 +95,7 @@
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: var(--accent);
-    margin: 3rem 0 1.5rem;
+    margin: 3rem 0 1.8rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -107,58 +107,77 @@
     background: var(--border);
   }
 
-  /* timeline */
+  /* ═══════════════════════════════════════
+     TIMELINE — thin line left, dots on line,
+     date labels left of dots, cards right
+     ═══════════════════════════════════════ */
   .timeline {
     position: relative;
-    padding-left: 2.8rem;
+    padding-left: 9rem;
   }
   .timeline::before {
     content: '';
     position: absolute;
-    left: 1.05rem;
-    top: 0.6rem;
-    bottom: 0.6rem;
-    width: 2px;
+    left: 5rem;
+    top: 0.8rem;
+    bottom: 0.8rem;
+    width: 1px;
     background: var(--border);
   }
 
   /* timeline item */
   .tl-item {
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
   .tl-item:last-child { margin-bottom: 0; }
 
-  /* dot + date on the left */
+  /* dot — centered ON the timeline line */
   .tl-dot {
     position: absolute;
-    left: -1.75rem;
-    top: 1.1rem;
-    width: 12px;
-    height: 12px;
+    left: 5rem;
+    top: 0.55rem;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--border);
     border: 2px solid var(--bg);
     z-index: 2;
+    transform: translateX(-50%);
+    transition: all 0.3s ease;
   }
-  .tl-item.now .tl-dot { background: var(--gold); box-shadow: 0 0 8px rgba(255,209,102,0.4); }
-  .tl-item.milestone .tl-dot { background: var(--pink); box-shadow: 0 0 8px rgba(255,107,157,0.4); }
-  .tl-item.master .tl-dot { background: var(--green); box-shadow: 0 0 8px rgba(93,252,142,0.3); }
+  .tl-item.now .tl-dot { background: var(--gold); box-shadow: 0 0 10px rgba(255,209,102,0.5); }
+  .tl-item.milestone .tl-dot { background: var(--pink); box-shadow: 0 0 10px rgba(255,107,157,0.5); }
+  .tl-item.master .tl-dot { background: var(--green); box-shadow: 0 0 10px rgba(93,252,142,0.4); }
   .tl-item.balboa .tl-dot { background: var(--accent); }
+  .tl-item.hackathon .tl-dot { background: var(--gold); box-shadow: 0 0 10px rgba(255,209,102,0.5); }
+  .tl-item.testmate .tl-dot { background: var(--pink); box-shadow: 0 0 10px rgba(255,107,157,0.5); }
 
+  /* date label — right-aligned, just left of the dot */
   .tl-date {
     position: absolute;
-    left: -6.5rem;
-    top: 0.95rem;
-    font-size: 0.55rem;
+    left: 0.8rem;
+    top: 0.35rem;
+    font-size: 0.6rem;
     color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     white-space: nowrap;
     text-align: right;
-    width: 4.2rem;
+    width: 3.5rem;
+    line-height: 1.3;
   }
-  .tl-item.now .tl-date { color: var(--gold); }
+  .tl-date .day {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+  }
+  .tl-item.now .tl-date .day { color: var(--gold); }
+  .tl-item.master .tl-date .day { color: var(--green); }
+  .tl-item.milestone .tl-date .day { color: var(--pink); }
+  .tl-item.balboa .tl-date .day { color: var(--accent); }
+  .tl-item.hackathon .tl-date .day { color: var(--gold); }
+  .tl-item.testmate .tl-date .day { color: var(--pink); }
 
   /* window card on the right */
   .window {
@@ -179,6 +198,8 @@
   .tl-item.milestone .window { border-color: rgba(255,107,157,0.2); }
   .tl-item.master .window { border-color: rgba(93,252,142,0.2); }
   .tl-item.balboa .window { border-color: rgba(126,200,227,0.25); }
+  .tl-item.hackathon .window { border-color: rgba(255,209,102,0.2); }
+  .tl-item.testmate .window { border-color: rgba(255,107,157,0.2); }
 
   .window-bar {
     background: var(--surface2);
@@ -192,6 +213,8 @@
   .tl-item.milestone .window-bar { border-bottom-color: rgba(255,107,157,0.3); }
   .tl-item.master .window-bar { border-bottom-color: rgba(93,252,142,0.3); }
   .tl-item.balboa .window-bar { border-bottom-color: rgba(126,200,227,0.3); }
+  .tl-item.hackathon .window-bar { border-bottom-color: rgba(255,209,102,0.3); }
+  .tl-item.testmate .window-bar { border-bottom-color: rgba(255,107,157,0.3); }
 
   .win-dot {
     width: 9px; height: 9px;
@@ -264,12 +287,13 @@
     text-decoration: none;
   }
 
-  @media (max-width: 600px) {
-    .wrapper { padding: 1.5rem 0.75rem 5rem; }
-    .tl-date { display: none; }
-    .timeline { padding-left: 2rem; }
-    .timeline::before { left: 0.65rem; }
-    .tl-dot { left: -1.35rem; }
+  @media (max-width: 650px) {
+    .wrapper { padding: 1.5rem 0.5rem 5rem; }
+    .timeline { padding-left: 5.5rem; }
+    .timeline::before { left: 2.5rem; }
+    .tl-dot { left: 2.5rem; }
+    .tl-date { left: 0.2rem; font-size: 0.5rem; width: 2rem; }
+    .tl-date .day { font-size: 0.6rem; }
   }
 </style>
 </head>
@@ -288,13 +312,13 @@
 
   <div class="timeline">
 
-    <div class="tl-item now">
-      <div class="tl-date">Woche 0 · Jetzt</div>
+    <div class="tl-item hackathon">
+      <div class="tl-date"><span class="day">13.</span>Jun</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
           <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-          <span class="win-title">w0_hackathon.exe — Running</span>
+          <span class="win-title">w0_hackathon.exe — Complete</span>
         </div>
         <div class="window-body">
           <h3>⚡ Prompt Sales Hackathon</h3>
@@ -307,8 +331,8 @@
       </div>
     </div>
 
-    <div class="tl-item">
-      <div class="tl-date">Woche 2</div>
+    <div class="tl-item balboa">
+      <div class="tl-date"><span class="day">26.</span>Jun</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -325,8 +349,8 @@
       </div>
     </div>
 
-    <div class="tl-item">
-      <div class="tl-date">Woche 4</div>
+    <div class="tl-item balboa">
+      <div class="tl-date"><span class="day">10.</span>Jul</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -334,8 +358,8 @@
           <span class="win-title">w4_flavors_app.pkg</span>
         </div>
         <div class="window-body">
-          <h3>🧪 5 Flavors + App v1</h3>
-          <p>Nutritional Yeast in 5 Geschmacksrichtungen. App: vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.</p>
+          <h3>🧪 V1 Balboa App</h3>
+          <p>5 Flavors + App v1: vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.</p>
           <div class="window-tags">
             <span class="window-tag">Balboa</span><span class="window-tag">App</span><span class="window-tag">AI</span>
           </div>
@@ -343,8 +367,8 @@
       </div>
     </div>
 
-    <div class="tl-item">
-      <div class="tl-date">Woche 7</div>
+    <div class="tl-item testmate">
+      <div class="tl-date"><span class="day">27.</span>Jul</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -361,8 +385,8 @@
       </div>
     </div>
 
-    <div class="tl-item">
-      <div class="tl-date">Woche 8</div>
+    <div class="tl-item balboa">
+      <div class="tl-date"><span class="day">13.</span>Aug</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -370,7 +394,7 @@
           <span class="win-title">w8_pricing_tool.py</span>
         </div>
         <div class="window-body">
-          <h3>📊 Pricing Tool</h3>
+          <h3>📊 Balboa Pricing Tool</h3>
           <p>Dynamisches Preismodell auf Basis von Produktionskosten, Echtzeit-Competitor-Analyse und Markttrend-Prognose.</p>
           <div class="window-tags">
             <span class="window-tag">Balboa</span><span class="window-tag">Pricing</span><span class="window-tag">Data</span>
@@ -380,7 +404,7 @@
     </div>
 
     <div class="tl-item master">
-      <div class="tl-date">23. Aug 2026</div>
+      <div class="tl-date"><span class="day">23.</span>Aug</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -399,7 +423,7 @@
     </div>
 
     <div class="tl-item milestone">
-      <div class="tl-date">Woche 9</div>
+      <div class="tl-date"><span class="day">30.</span>Aug</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -443,7 +467,7 @@
     </div>
 
     <div class="tl-item master">
-      <div class="tl-date">23. Aug 2026</div>
+      <div class="tl-date">Abgabe</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -461,8 +485,8 @@
       </div>
     </div>
 
-    <div class="tl-item">
-      <div class="tl-date">Woche 7</div>
+    <div class="tl-item testmate">
+      <div class="tl-date">Launch</div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
