@@ -33,7 +33,6 @@
       radial-gradient(ellipse at 80% 20%, rgba(255,209,102,0.03) 0%, transparent 50%);
   }
 
-  /* taskbar */
   .taskbar {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -62,7 +61,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* desktop area */
   .desktop {
     padding: 2rem 1.5rem 5rem;
     max-width: 900px;
@@ -74,7 +72,6 @@
     min-height: calc(100vh - 80px);
   }
 
-  /* window */
   .window {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -160,7 +157,6 @@
     letter-spacing: 0.04em;
   }
 
-  /* header window */
   .header-window {
     grid-column: 1 / -1;
   }
@@ -192,7 +188,6 @@
     letter-spacing: 0.05em;
   }
 
-  /* section windows (labels) */
   .section-win {
     grid-column: 1 / -1;
     background: transparent;
@@ -220,7 +215,6 @@
     background: var(--border);
   }
 
-  /* special window styles */
   .window.now .window-bar { border-bottom-color: var(--gold); }
   .window.now .win-dot:nth-child(2) { background: var(--gold); }
   .window.now { border-color: rgba(255,209,102,0.2); }
@@ -232,7 +226,8 @@
   .window.master .window-bar { border-bottom-color: var(--green); }
   .window.master .win-dot:nth-child(1) { background: var(--green); }
 
-  /* footer */
+  .window.balboa .window-bar { border-bottom-color: var(--accent); }
+
   .footer-win {
     grid-column: 1 / -1;
     background: transparent;
@@ -248,7 +243,6 @@
   }
   .footer-win:hover { transform:none; box-shadow:none; }
 
-  /* background click */
   .click-hint {
     position: fixed;
     top: 50%; left: 50%;
@@ -307,8 +301,8 @@
       <div class="file-icon">⚡</div>
       <div class="date">Woche 0 · Jetzt</div>
       <h3>Prompt Sales Hackathon</h3>
-      <p>AI-CRM auf Azure EU. Accounts, Deals, Offers — agent-driven. Team: Agent Eng, Backend, Frontend (2).<br>
-      <em>→ Live-Demo auf 3D-Landing-Page</em></p>
+      <p>AI-gestützter CRM-Prototyp auf Azure EU. Accounts, Deals, Offers mit Agent-gesteuertem Workflow.<br>
+      <em>→ Live-Demo auf der 3D-Landing-Page verlinkt</em></p>
       <div class="window-tags">
         <span class="window-tag">Hackathon</span><span class="window-tag">Azure</span><span class="window-tag">AI</span>
       </div>
@@ -324,7 +318,7 @@
       <div class="file-icon">🌐</div>
       <div class="date">Woche 2</div>
       <h3>Balboa Website</h3>
-      <p>Brand-Website Launch. Brand World, Storytelling, Nutritional Yeast Präsenz.</p>
+      <p>Launch der Brand-Website. Brand World, Storytelling, erste Produkt-Präsenz.</p>
       <div class="window-tags">
         <span class="window-tag">Balboa</span><span class="window-tag">Web</span>
       </div>
@@ -340,7 +334,7 @@
       <div class="file-icon">🧪</div>
       <div class="date">Woche 4</div>
       <h3>5 Flavors + App v1</h3>
-      <p>Nutritional Yeast 5 Geschmacksrichtungen. App: vegane Lifestyle-Tipps, AI-API für personalisierte Empfehlungen.</p>
+      <p>Nutritional Yeast in 5 Geschmacksrichtungen. App: vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.</p>
       <div class="window-tags">
         <span class="window-tag">Balboa</span><span class="window-tag">App</span><span class="window-tag">AI</span>
       </div>
@@ -356,7 +350,7 @@
       <div class="file-icon">📱</div>
       <div class="date">Woche 7</div>
       <h3>TestMate Launch</h3>
-      <p>Google Play Closed Test Plattform. Profi-Tester-Vermittlung, Matching, Feedback-Loop, Compliance.</p>
+      <p>Plattform, die professionelle Tester für den Google Play Closed Test vermittelt. End-to-End: Tester-Matching, Feedback-Loop, Compliance.</p>
       <div class="window-tags">
         <span class="window-tag">TestMate</span><span class="window-tag">Launch</span>
       </div>
@@ -372,7 +366,7 @@
       <div class="file-icon">📊</div>
       <div class="date">Woche 8</div>
       <h3>Pricing Tool</h3>
-      <p>Dynamisches Preismodell: Produktionskosten, Echtzeit-Competitor-Analyse, Trend-Prognose, Szenario-Simulation.</p>
+      <p>Dynamisches Preismodell auf Basis von Produktionskosten, Echtzeit-Competitor-Analyse und Markttrend-Prognose.</p>
       <div class="window-tags">
         <span class="window-tag">Balboa</span><span class="window-tag">Pricing</span><span class="window-tag">Data</span>
       </div>
@@ -386,11 +380,12 @@
     </div>
     <div class="window-body">
       <div class="file-icon">🎓</div>
-      <div class="date">Woche 8</div>
+      <div class="date">23. August 2026</div>
       <h3>Masterarbeit Abgabe</h3>
-      <p>KI-Influencer im Influencer Marketing. Qualitative Studie, min. 6 Experteninterviews. WU Wien.</p>
+      <p>Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
+      Qualitative Studie, min. 6 Experteninterviews. WU Wien.</p>
       <div class="window-tags">
-        <span class="window-tag">Masterarbeit</span><span class="window-tag">WU</span>
+        <span class="window-tag">Masterarbeit</span><span class="window-tag">WU Wien</span>
       </div>
     </div>
   </div>
@@ -403,58 +398,60 @@
     <div class="window-body">
       <div class="file-icon">🇫🇮</div>
       <div class="date">Woche 9</div>
-      <h3>SED Abschluss — Helsinki</h3>
-      <p>Finale Präsentation: Website, App, Pricing Tool. ITP-Programm completed.</p>
+      <h3>SED Track Abschluss — Helsinki</h3>
+      <p>Finale Projekt-Präsentation: Website, App, Pricing Tool.<br>
+      🎓 Abschluss des ITP-Programms in Helsinki.</p>
       <div class="window-tags">
         <span class="window-tag">ITP</span><span class="window-tag">SED</span><span class="window-tag">Helsinki</span>
       </div>
     </div>
   </div>
 
-  <!-- ── AKTIVE PROJEKTE ── -->
+  <!-- ── PROJEKTE ── -->
   <div class="section-win">
-    <div class="section-label">📂 Aktive Projekte</div>
+    <div class="section-label">📂 Projekte</div>
   </div>
 
-  <div class="window">
+  <div class="window balboa">
     <div class="window-bar">
       <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">~/masterarbeit/interviews</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">🎙️</div>
-      <div class="date">laufend</div>
-      <h3>Experteninterviews</h3>
-      <p>Min. 6 Interviews. Transkription + qualitative Inhaltsanalyse. Abgabe Woche 8.</p>
-      <div class="window-tags"><span class="window-tag">Masterarbeit</span></div>
-    </div>
-  </div>
-
-  <div class="window">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">~/balboa/brand</span>
+      <span class="win-title">~/balboa/README.md</span>
     </div>
     <div class="window-body">
       <div class="file-icon">🌿</div>
       <div class="date">laufend</div>
-      <h3>Brand & Product</h3>
-      <p>Brand World, Visual Identity, 5 Flavors. Website → App → Pricing Tool.</p>
-      <div class="window-tags"><span class="window-tag">Balboa</span></div>
+      <h3>Balboa</h3>
+      <p>Nutritional Yeast mit 5 Flavors. Brand World & Visual Identity. Website (W2) → App mit veganen Lifestyle-Tipps (W4) → Pricing Tool mit Competitor-Analyse (W8).</p>
+      <div class="window-tags"><span class="window-tag">Balboa</span><span class="window-tag">Brand</span><span class="window-tag">Product</span></div>
+    </div>
+  </div>
+
+  <div class="window master">
+    <div class="window-bar">
+      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+      <span class="win-title">~/masterarbeit/thesis.tex</span>
+    </div>
+    <div class="window-body">
+      <div class="file-icon">🎙️</div>
+      <div class="date">Abgabe 23. August 2026</div>
+      <h3>Masterarbeit</h3>
+      <p>Forschungsfrage: Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
+      Qualitativ, min. 6 Experteninterviews. WU Wien.</p>
+      <div class="window-tags"><span class="window-tag">Masterarbeit</span><span class="window-tag">WU Wien</span></div>
     </div>
   </div>
 
   <div class="window">
     <div class="window-bar">
       <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">~/testmate/v1</span>
+      <span class="win-title">~/testmate/README.md</span>
     </div>
     <div class="window-body">
       <div class="file-icon">🧪</div>
       <div class="date">Launch Woche 7</div>
       <h3>TestMate</h3>
-      <p>Closed Test Plattform. Tester-Matching, Feedback-Loop, Google Play Compliance.</p>
-      <div class="window-tags"><span class="window-tag">TestMate</span></div>
+      <p>Plattform für den Google Play Closed Test. Vermittelt qualifizierte Tester — vom Matching über strukturiertes Feedback bis zur Store-Compliance. End-to-End, automatisiert.</p>
+      <div class="window-tags"><span class="window-tag">TestMate</span><span class="window-tag">Google Play</span></div>
     </div>
   </div>
 
@@ -476,7 +473,6 @@
 </div>
 
 <script>
-// clock
 function tick() {
   const t = new Date();
   document.getElementById('time').textContent = 
