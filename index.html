@@ -5,211 +5,522 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Helena's Devlog</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
   :root {
-    --bg: #fafafa;
-    --text: #1a1a1a;
-    --muted: #888;
-    --accent: #000;
-    --card-bg: #fff;
-    --border: #e5e5e5;
-    --tag-bg: #f3f3f3;
-    --itp: #2563eb;
+    --bg-deep: #06060f;
+    --bg: #0d0d1f;
+    --bg-card: #13132a;
+    --surface: rgba(20,20,50,0.6);
+    --text: #e2e2f0;
+    --muted: #7a7a9a;
+    --accent: #7ec8e3;
+    --gold: #ffd166;
+    --border: rgba(126,200,227,0.1);
+    --glow: rgba(126,200,227,0.08);
+    --gradient: linear-gradient(135deg, #7ec8e3 0%, #ffd166 100%);
   }
-  * { margin:0; padding:0; box-sizing:border-box; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: var(--bg);
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg-deep);
     color: var(--text);
     line-height: 1.6;
-    max-width: 680px;
+    overflow-x: hidden;
+  }
+
+  /* bg particles */
+  #particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 2rem 1.5rem;
+    padding: 4rem 1.5rem 6rem;
   }
-  header { margin-bottom: 3rem; }
-  h1 { font-size: 1.6rem; font-weight: 600; letter-spacing: -0.02em; }
-  .subtitle { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
 
-  .entry {
-    background: var(--card-bg);
+  /* ── header ── */
+  header {
+    margin-bottom: 5rem;
+    position: relative;
+  }
+  .logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle {
+    font-size: 1.05rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  /* ── section label ── */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin: 4rem 0 1.25rem;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── timeline entry ── */
+  .tl-entry {
+    position: relative;
+    background: var(--bg-card);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
+    border-radius: 14px;
+    padding: 1.6rem 1.8rem;
     margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    overflow: hidden;
   }
-  .entry-header {
-    display: flex; justify-content: space-between; align-items: baseline;
+  .tl-entry::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, var(--glow), transparent 70%);
+    pointer-events: none;
+  }
+  .tl-entry:hover {
+    border-color: rgba(126,200,227,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(126,200,227,0.06);
+  }
+  .tl-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.3rem;
+    position: relative;
+  }
+  .tl-week {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    background: rgba(126,200,227,0.1);
+    padding: 0.2rem 0.7rem;
+    border-radius: 4px;
+  }
+  .tl-week.now {
+    background: rgba(255,209,102,0.15);
+    color: var(--gold);
+  }
+  .tl-date {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .tl-title {
+    font-weight: 600;
+    font-size: 1.08rem;
     margin-bottom: 0.5rem;
+    position: relative;
+    color: #fff;
   }
-  .entry-title { font-weight: 600; font-size: 1.05rem; }
-  .entry-date { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
-  .entry-body { font-size: 0.95rem; color: #444; }
-  .entry-body ul { padding-left: 1.2rem; margin-top: 0.3rem; }
-  .entry-body li { margin-bottom: 0.25rem; }
+  .tl-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+    position: relative;
+  }
+  .tl-desc em {
+    color: var(--accent);
+    font-style: normal;
+    font-size: 0.82rem;
+  }
+  .tl-tags {
+    margin-top: 0.8rem;
+    display: flex;
+    gap: 0.4rem;
+    position: relative;
+  }
+  .tl-tag {
+    font-size: 0.65rem;
+    padding: 0.18rem 0.6rem;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.04);
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
 
-  .timeline {
+  /* ── card entry (for active projects) ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.6rem 1.8rem;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, var(--glow), transparent 70%);
+    pointer-events: none;
+  }
+  .card:hover {
+    border-color: rgba(126,200,227,0.2);
+    box-shadow: 0 8px 32px rgba(126,200,227,0.04);
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: relative;
+  }
+  .card-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+  }
+  .card-status {
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .card-body {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    position: relative;
+  }
+  .card-body ul {
     list-style: none;
     padding: 0;
-    margin-top: 0.5rem;
   }
-  .timeline li {
+  .card-body li {
+    padding-left: 1rem;
     position: relative;
-    padding-left: 1.6rem;
-    padding-bottom: 0.6rem;
-    border-left: 2px solid var(--border);
-    margin-left: 0.3rem;
+    margin-bottom: 0.3rem;
   }
-  .timeline li:last-child { border-left: 2px solid transparent; padding-bottom: 0; }
-  .timeline .dot {
+  .card-body li::before {
+    content: '→';
     position: absolute;
-    left: -0.44rem;
-    top: 0.3rem;
-    width: 0.65rem;
-    height: 0.65rem;
-    background: var(--itp);
-    border-radius: 50%;
+    left: 0;
+    color: var(--accent);
+    opacity: 0.5;
   }
-  .timeline .dot.muted { background: var(--border); }
-  .timeline .week {
-    font-size: 0.75rem;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.1rem;
-  }
-  .timeline .desc { font-size: 0.92rem; }
+  .card .tl-tags { margin-top: 0.6rem; }
 
-  .tag {
-    display: inline-block;
-    background: var(--tag-bg);
-    padding: 0.15rem 0.6rem;
-    border-radius: 4px;
+  /* ── footer ── */
+  footer {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
     font-size: 0.75rem;
     color: var(--muted);
-    margin-right: 0.4rem;
-    margin-top: 0.5rem;
   }
-  .section-label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    margin: 2rem 0 0.75rem;
+  footer a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s;
   }
-  hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-  footer { text-align: center; color: var(--muted); font-size: 0.8rem; margin-top: 3rem; }
-  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  footer a:hover { color: var(--gold); }
+
+  /* ── glow orb ── */
+  .glow-orb {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(180px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-orb.top-right {
+    top: -200px;
+    right: -200px;
+    background: rgba(126,200,227,0.1);
+  }
+  .glow-orb.bottom-left {
+    bottom: -200px;
+    left: -200px;
+    background: rgba(255,209,102,0.06);
+  }
+
+  @media (max-width: 600px) {
+    .wrapper { padding: 2rem 1rem 4rem; }
+    .tl-entry, .card { padding: 1.2rem 1.2rem; }
+    h1 { font-size: 1.8rem; }
+  }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Devlog</h1>
-  <p class="subtitle">ITP SED Track — Was ansteht, was läuft.</p>
-</header>
+<div class="glow-orb top-right"></div>
+<div class="glow-orb bottom-left"></div>
+<canvas id="particles"></canvas>
 
-<!-- ═══════ ITP TIMELINE ═══════ -->
-<div class="section-label">ITP Program — 9-Wochen-Fahrplan</div>
+<div class="wrapper">
+  <header>
+    <div class="logo">Helena Moehl · SED Track</div>
+    <h1>Devlog</h1>
+    <p class="subtitle">9 Wochen bis Helsinki. Jeder Meilenstein ein Schritt.</p>
+  </header>
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-title">SED Track: Vom Hackathon bis Helsinki</span>
-    <span class="entry-date">Juni – August</span>
+  <!-- ═══ ITP TIMELINE ═══ -->
+  <div class="section-label">ITP — Der Fahrplan</div>
+
+  <div class="tl-entry">
+    <div class="tl-top">
+      <span class="tl-week now">Woche 0 · Jetzt</span>
+      <span class="tl-date">Juni</span>
+    </div>
+    <div class="tl-title">Prompt Sales Hackathon</div>
+    <div class="tl-desc">
+      AI-gestützter CRM-Prototyp auf Azure EU. Accounts, Deals, Offers — 
+      agent-driven end-to-end. Teams aus Agent Engineer, Backend, Frontend (2).<br>
+      <em>→ Live-Demo auf der 3D-Landing-Page verlinkt</em>
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">Hackathon</span>
+      <span class="tl-tag">Azure</span>
+      <span class="tl-tag">AI Agents</span>
+    </div>
   </div>
-  <div class="entry-body">
-    <ul class="timeline">
-      <li>
-        <div class="dot"></div>
-        <div class="week">Woche 0 — jetzt</div>
-        <div class="desc"><strong>Prompt Sales Hackathon</strong> — AI-gestützter CRM-Prototyp auf Azure EU. 
-        Accounts, Deals, Offers mit Agent-gesteuertem Workflow.<br>
-        <em>→ Live-Demo auf der 3D-Landing-Page verlinkt</em></div>
-      </li>
-      <li>
-        <div class="dot"></div>
-        <div class="week">Woche 2</div>
-        <div class="desc"><strong>Balboa Website</strong> — Launch der Brand-Website. Brand World, Storytelling, erste Produkt-Präsenz.</div>
-      </li>
-      <li>
-        <div class="dot"></div>
-        <div class="week">Woche 4</div>
-        <div class="desc"><strong>Nutritional Yeast — 5 Flavors</strong> + <strong>Balboa App v1</strong>. Vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.</div>
-      </li>
-      <li>
-        <div class="dot"></div>
-        <div class="week">Woche 7</div>
-        <div class="desc"><strong>TestMate Launch</strong> — Plattform, die professionelle Tester für den Google Play Closed Test vermittelt. End-to-End: Tester-Matching, Feedback-Loop, Compliance.</div>
-      </li>
-      <li>
-        <div class="dot"></div>
-        <div class="week">Woche 8</div>
-        <div class="desc"><strong>Balboa Pricing Tool</strong> — Dynamisches Preismodell auf Basis von Produktionskosten, Echtzeit-Competitor-Analyse und Markttrend-Prognose. 
-        <br>+ <strong>Masterarbeit Abgabe</strong> — KI-Influencer im Influencer Marketing (WU Wien).</div>
-      </li>
-      <li>
-        <div class="dot"></div>
-        <div class="week">Woche 9</div>
-        <div class="desc"><strong>SED Track Abschluss</strong> — Finale Projekt-Präsentation: Website, App, Pricing Tool.<br>
-        🎓 Abschluss des ITP-Programms in Helsinki.</div>
-      </li>
-    </ul>
+
+  <div class="tl-entry">
+    <div class="tl-top">
+      <span class="tl-week">Woche 2</span>
+    </div>
+    <div class="tl-title">Balboa Website</div>
+    <div class="tl-desc">
+      Launch der Brand-Website. Brand World, Storytelling, erste Produkt-Präsenz 
+      für Nutritional Yeast.
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">Balboa</span>
+      <span class="tl-tag">Web</span>
+    </div>
   </div>
-  <span class="tag">ITP</span>
-  <span class="tag">SED</span>
-  <span class="tag">Timeline</span>
+
+  <div class="tl-entry">
+    <div class="tl-top">
+      <span class="tl-week">Woche 4</span>
+    </div>
+    <div class="tl-title">5 Flavors + Balboa App v1</div>
+    <div class="tl-desc">
+      Nutritional Yeast in 5 Geschmacksrichtungen. Dazu: App mit veganen 
+      Lifestyle-Tipps, personalisiert per AI-API — Empfehlungen, 
+      Rezept-Matching, Ernährungs-Tracking.
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">Balboa</span>
+      <span class="tl-tag">App</span>
+      <span class="tl-tag">AI API</span>
+    </div>
+  </div>
+
+  <div class="tl-entry">
+    <div class="tl-top">
+      <span class="tl-week">Woche 7</span>
+    </div>
+    <div class="tl-title">TestMate Launch</div>
+    <div class="tl-desc">
+      Plattform für Google Play Closed Tests. Vermittelt qualifizierte 
+      professionelle Tester — Matching, strukturierter Feedback-Loop, 
+      Store-Compliance. End-to-End vom Test-Setup bis zum Report.
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">TestMate</span>
+      <span class="tl-tag">Google Play</span>
+      <span class="tl-tag">Launch</span>
+    </div>
+  </div>
+
+  <div class="tl-entry">
+    <div class="tl-top">
+      <span class="tl-week">Woche 8</span>
+    </div>
+    <div class="tl-title">Balboa Pricing Tool</div>
+    <div class="tl-desc">
+      Dynamisches Preismodell. Echtzeit-Competitor-Analyse, 
+      Trend-Prognose auf Basis historischer Marktdaten, 
+      produktionskostenbasiertes Pricing — Margen-Optimierung 
+      mit Szenario-Simulation.
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">Balboa</span>
+      <span class="tl-tag">Pricing</span>
+      <span class="tl-tag">Data</span>
+    </div>
+  </div>
+
+  <div class="tl-entry">
+    <div class="tl-top">
+      <span class="tl-week">Woche 8</span>
+    </div>
+    <div class="tl-title">Masterarbeit Abgabe</div>
+    <div class="tl-desc">
+      Virtuelle KI-Influencer im Influencer Marketing. 
+      Qualitative Studie, min. 6 Experteninterviews. WU Wien.
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">Masterarbeit</span>
+      <span class="tl-tag">WU Wien</span>
+    </div>
+  </div>
+
+  <div class="tl-entry">
+    <div class="tl-top">
+      <span class="tl-week">Woche 9</span>
+    </div>
+    <div class="tl-title">🎓 SED Track Abschluss — Helsinki</div>
+    <div class="tl-desc">
+      Finale Projekt-Präsentation: Website, App, Pricing Tool. 
+      Abschluss des ITP-Programms in Helsinki.
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">ITP</span>
+      <span class="tl-tag">SED</span>
+      <span class="tl-tag">Helsinki</span>
+    </div>
+  </div>
+
+  <!-- ═══ AKTIVE PROJEKTE ═══ -->
+  <div class="section-label">Aktive Projekte</div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-title">Masterarbeit — Experteninterviews</span>
+      <span class="card-status">laufend</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li>Min. 6 Interviews mit Branchenexperten</li>
+        <li>Transkription + qualitative Inhaltsanalyse</li>
+        <li>Abgabe in Woche 8</li>
+      </ul>
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">Masterarbeit</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-title">Balboa — Brand & Product</span>
+      <span class="card-status">laufend</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li>Brand World & Visual Identity</li>
+        <li>5 Nutritional Yeast Flavors entwickeln</li>
+        <li>Website → App → Pricing Tool</li>
+      </ul>
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">Balboa</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <span class="card-title">TestMate — Closed Test Plattform</span>
+      <span class="card-status">Launch Woche 7</span>
+    </div>
+    <div class="card-body">
+      <ul>
+        <li>Professionelle Tester für Google Play</li>
+        <li>Matching, Feedback-Loop, Compliance</li>
+      </ul>
+    </div>
+    <div class="tl-tags">
+      <span class="tl-tag">TestMate</span>
+    </div>
+  </div>
+
+  <footer>
+    <a href="https://helenamoehl0-web.github.io" target="_blank">helenamoehl0-web.github.io</a>
+    · GitHub Pages
+  </footer>
 </div>
 
-<!-- ═══════ PROJEKTE ═══════ -->
-<div class="section-label">Aktive Projekte</div>
+<script>
+// subtle particle drift
+(() => {
+  const c = document.getElementById('particles');
+  const ctx = c.getContext('2d');
+  let w, h, particles = [];
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-title">Masterarbeit — Experteninterviews</span>
-    <span class="entry-date">laufend</span>
-  </div>
-  <div class="entry-body">
-    <ul>
-      <li>Min. 6 Interviews mit Branchenexperten</li>
-      <li>Transkription + qualitative Inhaltsanalyse</li>
-      <li>Abgabe in Woche 8</li>
-    </ul>
-  </div>
-  <span class="tag">Masterarbeit</span>
-</div>
+  function resize() {
+    w = c.width = innerWidth;
+    h = c.height = innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-title">Balboa — Brand & Product</span>
-    <span class="entry-date">laufend</span>
-  </div>
-  <div class="entry-body">
-    <ul>
-      <li>Brand World & Visual Identity</li>
-      <li>5 Nutritional Yeast Flavors entwickeln</li>
-      <li>Website (Woche 2) → App (Woche 4) → Pricing Tool (Woche 8)</li>
-    </ul>
-  </div>
-  <span class="tag">Balboa</span>
-</div>
+  for (let i = 0; i < 50; i++) {
+    particles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 1.2 + 0.3,
+      vx: (Math.random() - 0.5) * 0.15,
+      vy: (Math.random() - 0.5) * 0.15,
+      alpha: Math.random() * 0.4 + 0.1
+    });
+  }
 
-<div class="entry">
-  <div class="entry-header">
-    <span class="entry-title">TestMate — Closed Test Plattform</span>
-    <span class="entry-date">Launch Woche 7</span>
-  </div>
-  <div class="entry-body">
-    <ul>
-      <li>Professionelle Tester für Google Play Closed Test</li>
-      <li>Matching, Feedback-Management, Store-Compliance</li>
-    </ul>
-  </div>
-  <span class="tag">TestMate</span>
-</div>
-
-<hr>
-
-<footer>
-  Gehostet auf <a href="https://pages.github.com" target="_blank">GitHub Pages</a>
-</footer>
-
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(126,200,227,${p.alpha})`;
+      ctx.fill();
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = w;
+      if (p.x > w) p.x = 0;
+      if (p.y < 0) p.y = h;
+      if (p.y > h) p.y = 0;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
 </body>
 </html>
