@@ -61,17 +61,106 @@
     letter-spacing: 0.05em;
   }
 
-  .desktop {
-    padding: 2rem 1.5rem 5rem;
-    max-width: 900px;
+  .wrapper {
+    max-width: 720px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1.2rem;
-    align-content: start;
-    min-height: calc(100vh - 80px);
+    padding: 2.5rem 1.5rem 5rem;
   }
 
+  /* header */
+  .header {
+    margin-bottom: 3.5rem;
+  }
+  .header h1 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .header .sub {
+    font-size: 0.62rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .header .path {
+    font-size: 0.55rem;
+    color: var(--accent);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  /* sections */
+  .section-label {
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin: 3rem 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* timeline */
+  .timeline {
+    position: relative;
+    padding-left: 2.8rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 1.05rem;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 2px;
+    background: var(--border);
+  }
+
+  /* timeline item */
+  .tl-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  .tl-item:last-child { margin-bottom: 0; }
+
+  /* dot + date on the left */
+  .tl-dot {
+    position: absolute;
+    left: -1.75rem;
+    top: 1.1rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border);
+    border: 2px solid var(--bg);
+    z-index: 2;
+  }
+  .tl-item.now .tl-dot { background: var(--gold); box-shadow: 0 0 8px rgba(255,209,102,0.4); }
+  .tl-item.milestone .tl-dot { background: var(--pink); box-shadow: 0 0 8px rgba(255,107,157,0.4); }
+  .tl-item.master .tl-dot { background: var(--green); box-shadow: 0 0 8px rgba(93,252,142,0.3); }
+  .tl-item.balboa .tl-dot { background: var(--accent); }
+
+  .tl-date {
+    position: absolute;
+    left: -6.5rem;
+    top: 0.95rem;
+    font-size: 0.55rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    text-align: right;
+    width: 4.2rem;
+  }
+  .tl-item.now .tl-date { color: var(--gold); }
+
+  /* window card on the right */
   .window {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -84,26 +173,41 @@
   .window:hover {
     border-color: var(--accent);
     box-shadow: 0 8px 32px rgba(126,200,227,0.08);
-    transform: translateY(-3px);
+    transform: translateX(4px);
   }
+  .tl-item.now .window { border-color: rgba(255,209,102,0.2); }
+  .tl-item.milestone .window { border-color: rgba(255,107,157,0.2); }
+  .tl-item.master .window { border-color: rgba(93,252,142,0.2); }
+  .tl-item.balboa .window { border-color: rgba(126,200,227,0.25); }
+
   .window-bar {
     background: var(--surface2);
-    padding: 0.5rem 0.75rem;
+    padding: 0.45rem 0.75rem;
     display: flex;
     align-items: center;
     gap: 6px;
     border-bottom: 1px solid var(--border);
   }
+  .tl-item.now .window-bar { border-bottom-color: rgba(255,209,102,0.3); }
+  .tl-item.milestone .window-bar { border-bottom-color: rgba(255,107,157,0.3); }
+  .tl-item.master .window-bar { border-bottom-color: rgba(93,252,142,0.3); }
+  .tl-item.balboa .window-bar { border-bottom-color: rgba(126,200,227,0.3); }
+
   .win-dot {
-    width: 10px; height: 10px;
+    width: 9px; height: 9px;
     border-radius: 50%;
     background: #444;
   }
   .win-dot:nth-child(1) { background: #ff5f57; }
   .win-dot:nth-child(2) { background: #febc2e; }
   .win-dot:nth-child(3) { background: #28c840; }
+  .tl-item.now .win-dot:nth-child(2) { background: var(--gold); }
+  .tl-item.milestone .win-dot:nth-child(3) { background: var(--pink); }
+  .tl-item.master .win-dot:nth-child(1) { background: var(--green); }
+  .tl-item.balboa .win-dot:nth-child(3) { background: var(--accent); }
+
   .win-title {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     color: var(--muted);
     margin-left: 6px;
     letter-spacing: 0.05em;
@@ -112,7 +216,7 @@
     text-overflow: ellipsis;
   }
   .window-body {
-    padding: 1rem 1.1rem;
+    padding: 0.9rem 1.1rem;
   }
   .window-body h3 {
     font-size: 0.82rem;
@@ -120,13 +224,6 @@
     margin-bottom: 0.35rem;
     color: #fff;
     letter-spacing: -0.01em;
-  }
-  .window-body .date {
-    font-size: 0.58rem;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.5rem;
   }
   .window-body p {
     font-size: 0.7rem;
@@ -137,10 +234,6 @@
     color: var(--gold);
     font-style: normal;
     font-size: 0.65rem;
-  }
-  .file-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
   }
   .window-tags {
     display: flex;
@@ -157,309 +250,241 @@
     letter-spacing: 0.04em;
   }
 
-  .header-window {
-    grid-column: 1 / -1;
-  }
-  .header-window .window-body {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-  }
-  .header-window .avatar {
-    font-size: 3.5rem;
-    filter: grayscale(0.2);
-  }
-  .header-window h1 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #fff;
-    margin: 0;
-  }
-  .header-window .sub {
-    font-size: 0.62rem;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-  .header-window .path {
-    font-size: 0.55rem;
-    color: var(--accent);
-    margin-top: 4px;
-    letter-spacing: 0.05em;
-  }
-
-  .section-win {
-    grid-column: 1 / -1;
-    background: transparent;
-    border: none;
-    padding: 0.5rem 0;
-    margin-top: 0.5rem;
-  }
-  .section-win:hover {
-    transform: none;
-    box-shadow: none;
-  }
-  .section-win .section-label {
-    font-size: 0.58rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  .window.now .window-bar { border-bottom-color: var(--gold); }
-  .window.now .win-dot:nth-child(2) { background: var(--gold); }
-  .window.now { border-color: rgba(255,209,102,0.2); }
-  .window.now .date { color: var(--gold); }
-
-  .window.milestone .window-bar { border-bottom-color: var(--pink); }
-  .window.milestone .win-dot:nth-child(3) { background: var(--pink); }
-
-  .window.master .window-bar { border-bottom-color: var(--green); }
-  .window.master .win-dot:nth-child(1) { background: var(--green); }
-
-  .window.balboa .window-bar { border-bottom-color: var(--accent); }
-
-  .footer-win {
-    grid-column: 1 / -1;
-    background: transparent;
-    border: none;
+  /* footer */
+  footer {
     text-align: center;
     font-size: 0.6rem;
     color: var(--muted);
-    margin-top: 1rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
   }
-  .footer-win a {
+  footer a {
     color: var(--accent);
     text-decoration: none;
   }
-  .footer-win:hover { transform:none; box-shadow:none; }
-
-  .click-hint {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    font-size: 0.55rem;
-    color: var(--muted);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-    letter-spacing: 0.08em;
-  }
 
   @media (max-width: 600px) {
-    .desktop {
-      grid-template-columns: 1fr;
-      padding: 1rem 0.75rem 5rem;
-    }
-    .header-window .window-body {
-      flex-direction: column;
-      text-align: center;
-    }
+    .wrapper { padding: 1.5rem 0.75rem 5rem; }
+    .tl-date { display: none; }
+    .timeline { padding-left: 2rem; }
+    .timeline::before { left: 0.65rem; }
+    .tl-dot { left: -1.35rem; }
   }
 </style>
 </head>
 <body>
 
-<div class="desktop">
+<div class="wrapper">
 
-  <!-- header -->
-  <div class="window header-window">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">~/helena/devlog</span>
-    </div>
-    <div class="window-body">
-      <div class="avatar">📂</div>
-      <div>
-        <h1>Helena's Devlog</h1>
-        <div class="sub">ITP SED Track — 9 Wochen bis Helsinki</div>
-        <div class="path">~/itp/sed-track/timeline</div>
+  <div class="header">
+    <h1>📂 Helena's Devlog</h1>
+    <div class="sub">ITP SED Track — 9 Wochen bis Helsinki</div>
+    <div class="path">~/itp/sed-track/timeline</div>
+  </div>
+
+  <!-- ═══ ITP TIMELINE ═══ -->
+  <div class="section-label">ITP — Der Fahrplan</div>
+
+  <div class="timeline">
+
+    <div class="tl-item now">
+      <div class="tl-date">Woche 0 · Jetzt</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">w0_hackathon.exe — Running</span>
+        </div>
+        <div class="window-body">
+          <h3>⚡ Prompt Sales Hackathon</h3>
+          <p>AI-gestützter CRM-Prototyp auf Azure EU. Accounts, Deals, Offers mit Agent-gesteuertem Workflow.<br>
+          <em>→ Live-Demo auf der 3D-Landing-Page verlinkt</em></p>
+          <div class="window-tags">
+            <span class="window-tag">Hackathon</span><span class="window-tag">Azure</span><span class="window-tag">AI</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- ── ITP TIMELINE ── -->
-  <div class="section-win">
-    <div class="section-label">📁 ITP — Der Fahrplan</div>
-  </div>
-
-  <div class="window now">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">w0_hackathon.exe — Running</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">⚡</div>
-      <div class="date">Woche 0 · Jetzt</div>
-      <h3>Prompt Sales Hackathon</h3>
-      <p>AI-gestützter CRM-Prototyp auf Azure EU. Accounts, Deals, Offers mit Agent-gesteuertem Workflow.<br>
-      <em>→ Live-Demo auf der 3D-Landing-Page verlinkt</em></p>
-      <div class="window-tags">
-        <span class="window-tag">Hackathon</span><span class="window-tag">Azure</span><span class="window-tag">AI</span>
+    <div class="tl-item">
+      <div class="tl-date">Woche 2</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">w2_balboa_web.sketch</span>
+        </div>
+        <div class="window-body">
+          <h3>🌐 Balboa Website</h3>
+          <p>Launch der Brand-Website. Brand World, Storytelling, erste Produkt-Präsenz.</p>
+          <div class="window-tags">
+            <span class="window-tag">Balboa</span><span class="window-tag">Web</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="window">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">w2_balboa_web.sketch</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">🌐</div>
-      <div class="date">Woche 2</div>
-      <h3>Balboa Website</h3>
-      <p>Launch der Brand-Website. Brand World, Storytelling, erste Produkt-Präsenz.</p>
-      <div class="window-tags">
-        <span class="window-tag">Balboa</span><span class="window-tag">Web</span>
+    <div class="tl-item">
+      <div class="tl-date">Woche 4</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">w4_flavors_app.pkg</span>
+        </div>
+        <div class="window-body">
+          <h3>🧪 5 Flavors + App v1</h3>
+          <p>Nutritional Yeast in 5 Geschmacksrichtungen. App: vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.</p>
+          <div class="window-tags">
+            <span class="window-tag">Balboa</span><span class="window-tag">App</span><span class="window-tag">AI</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="window">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">w4_flavors_app.pkg</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">🧪</div>
-      <div class="date">Woche 4</div>
-      <h3>5 Flavors + App v1</h3>
-      <p>Nutritional Yeast in 5 Geschmacksrichtungen. App: vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.</p>
-      <div class="window-tags">
-        <span class="window-tag">Balboa</span><span class="window-tag">App</span><span class="window-tag">AI</span>
+    <div class="tl-item">
+      <div class="tl-date">Woche 7</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">w7_testmate.app</span>
+        </div>
+        <div class="window-body">
+          <h3>📱 TestMate Launch</h3>
+          <p>Plattform, die professionelle Tester für den Google Play Closed Test vermittelt. End-to-End: Tester-Matching, Feedback-Loop, Compliance.</p>
+          <div class="window-tags">
+            <span class="window-tag">TestMate</span><span class="window-tag">Launch</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="window">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">w7_testmate.app</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">📱</div>
-      <div class="date">Woche 7</div>
-      <h3>TestMate Launch</h3>
-      <p>Plattform, die professionelle Tester für den Google Play Closed Test vermittelt. End-to-End: Tester-Matching, Feedback-Loop, Compliance.</p>
-      <div class="window-tags">
-        <span class="window-tag">TestMate</span><span class="window-tag">Launch</span>
+    <div class="tl-item">
+      <div class="tl-date">Woche 8</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">w8_pricing_tool.py</span>
+        </div>
+        <div class="window-body">
+          <h3>📊 Pricing Tool</h3>
+          <p>Dynamisches Preismodell auf Basis von Produktionskosten, Echtzeit-Competitor-Analyse und Markttrend-Prognose.</p>
+          <div class="window-tags">
+            <span class="window-tag">Balboa</span><span class="window-tag">Pricing</span><span class="window-tag">Data</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="window">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">w8_pricing_tool.py</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">📊</div>
-      <div class="date">Woche 8</div>
-      <h3>Pricing Tool</h3>
-      <p>Dynamisches Preismodell auf Basis von Produktionskosten, Echtzeit-Competitor-Analyse und Markttrend-Prognose.</p>
-      <div class="window-tags">
-        <span class="window-tag">Balboa</span><span class="window-tag">Pricing</span><span class="window-tag">Data</span>
+    <div class="tl-item master">
+      <div class="tl-date">23. Aug 2026</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">w8_masterarbeit.pdf</span>
+        </div>
+        <div class="window-body">
+          <h3>🎓 Masterarbeit Abgabe</h3>
+          <p>Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
+          Qualitative Studie, min. 6 Experteninterviews. WU Wien.</p>
+          <div class="window-tags">
+            <span class="window-tag">Masterarbeit</span><span class="window-tag">WU Wien</span>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="window master">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">w8_masterarbeit.pdf</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">🎓</div>
-      <div class="date">23. August 2026</div>
-      <h3>Masterarbeit Abgabe</h3>
-      <p>Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
-      Qualitative Studie, min. 6 Experteninterviews. WU Wien.</p>
-      <div class="window-tags">
-        <span class="window-tag">Masterarbeit</span><span class="window-tag">WU Wien</span>
+    <div class="tl-item milestone">
+      <div class="tl-date">Woche 9</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">w9_helsinki.flag</span>
+        </div>
+        <div class="window-body">
+          <h3>🇫🇮 SED Track Abschluss — Helsinki</h3>
+          <p>Finale Projekt-Präsentation: Website, App, Pricing Tool.<br>
+          🎓 Abschluss des ITP-Programms in Helsinki.</p>
+          <div class="window-tags">
+            <span class="window-tag">ITP</span><span class="window-tag">SED</span><span class="window-tag">Helsinki</span>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 
-  <div class="window milestone">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">w9_helsinki.flag</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">🇫🇮</div>
-      <div class="date">Woche 9</div>
-      <h3>SED Track Abschluss — Helsinki</h3>
-      <p>Finale Projekt-Präsentation: Website, App, Pricing Tool.<br>
-      🎓 Abschluss des ITP-Programms in Helsinki.</p>
-      <div class="window-tags">
-        <span class="window-tag">ITP</span><span class="window-tag">SED</span><span class="window-tag">Helsinki</span>
+  <!-- ═══ PROJEKTE ═══ -->
+  <div class="section-label">Projekte</div>
+
+  <div class="timeline">
+
+    <div class="tl-item balboa">
+      <div class="tl-date">laufend</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">~/balboa/README.md</span>
+        </div>
+        <div class="window-body">
+          <h3>🌿 Balboa</h3>
+          <p>Nutritional Yeast mit 5 Flavors. Brand World & Visual Identity. Website (W2) → App mit veganen Lifestyle-Tipps (W4) → Pricing Tool mit Competitor-Analyse (W8).</p>
+          <div class="window-tags">
+            <span class="window-tag">Balboa</span><span class="window-tag">Brand</span><span class="window-tag">Product</span>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="tl-item master">
+      <div class="tl-date">23. Aug 2026</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">~/masterarbeit/thesis.tex</span>
+        </div>
+        <div class="window-body">
+          <h3>🎓 Masterarbeit</h3>
+          <p>Forschungsfrage: Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
+          Qualitativ, min. 6 Experteninterviews. WU Wien.</p>
+          <div class="window-tags">
+            <span class="window-tag">Masterarbeit</span><span class="window-tag">WU Wien</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">Woche 7</div>
+      <div class="tl-dot"></div>
+      <div class="window">
+        <div class="window-bar">
+          <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
+          <span class="win-title">~/testmate/README.md</span>
+        </div>
+        <div class="window-body">
+          <h3>🧪 TestMate</h3>
+          <p>Plattform für den Google Play Closed Test. Vermittelt qualifizierte Tester — vom Matching über strukturiertes Feedback bis zur Store-Compliance. End-to-End, automatisiert.</p>
+          <div class="window-tags">
+            <span class="window-tag">TestMate</span><span class="window-tag">Google Play</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- ── PROJEKTE ── -->
-  <div class="section-win">
-    <div class="section-label">📂 Projekte</div>
-  </div>
-
-  <div class="window balboa">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">~/balboa/README.md</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">🌿</div>
-      <div class="date">laufend</div>
-      <h3>Balboa</h3>
-      <p>Nutritional Yeast mit 5 Flavors. Brand World & Visual Identity. Website (W2) → App mit veganen Lifestyle-Tipps (W4) → Pricing Tool mit Competitor-Analyse (W8).</p>
-      <div class="window-tags"><span class="window-tag">Balboa</span><span class="window-tag">Brand</span><span class="window-tag">Product</span></div>
-    </div>
-  </div>
-
-  <div class="window master">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">~/masterarbeit/thesis.tex</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">🎙️</div>
-      <div class="date">Abgabe 23. August 2026</div>
-      <h3>Masterarbeit</h3>
-      <p>Forschungsfrage: Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
-      Qualitativ, min. 6 Experteninterviews. WU Wien.</p>
-      <div class="window-tags"><span class="window-tag">Masterarbeit</span><span class="window-tag">WU Wien</span></div>
-    </div>
-  </div>
-
-  <div class="window">
-    <div class="window-bar">
-      <span class="win-dot"></span><span class="win-dot"></span><span class="win-dot"></span>
-      <span class="win-title">~/testmate/README.md</span>
-    </div>
-    <div class="window-body">
-      <div class="file-icon">🧪</div>
-      <div class="date">Launch Woche 7</div>
-      <h3>TestMate</h3>
-      <p>Plattform für den Google Play Closed Test. Vermittelt qualifizierte Tester — vom Matching über strukturiertes Feedback bis zur Store-Compliance. End-to-End, automatisiert.</p>
-      <div class="window-tags"><span class="window-tag">TestMate</span><span class="window-tag">Google Play</span></div>
-    </div>
-  </div>
-
-  <!-- footer -->
-  <div class="footer-win">
+  <footer>
     <a href="https://helenamoehl0-web.github.io" target="_blank">helenamoehl0-web.github.io</a>
     · GitHub Pages
-  </div>
+  </footer>
 
 </div>
 
