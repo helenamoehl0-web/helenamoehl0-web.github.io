@@ -70,6 +70,7 @@
   /* header */
   .header {
     margin-bottom: 3.5rem;
+    position: relative;
   }
   .header h1 {
     font-size: 1.3rem;
@@ -88,6 +89,29 @@
     margin-top: 4px;
     letter-spacing: 0.05em;
   }
+
+  /* language switcher */
+  .lang-switch {
+    position: absolute;
+    top: 0; right: 0;
+    z-index: 10;
+  }
+  .lang-switch select {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 20px 3px 6px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .lang-switch select:hover { border-color: var(--accent); }
 
   /* sections */
   .section-label {
@@ -295,13 +319,19 @@
 <div class="wrapper">
 
   <div class="header">
+    <div class="lang-switch">
+      <select id="langSelect" onchange="switchLang(this.value)">
+        <option value="de">DE</option>
+        <option value="en">EN</option>
+      </select>
+    </div>
     <h1>📂 Helena's Devlog</h1>
-    <div class="sub">ITP SED Track — 9 Wochen Helsinki</div>
+    <div class="sub" data-i18n="sub">ITP SED Track — 9 Wochen Helsinki</div>
     <div class="path">~/itp/sed-track/timeline</div>
   </div>
 
   <!-- ═══ ITP TIMELINE ═══ -->
-  <div class="section-label">ITP — Der Fahrplan</div>
+  <div class="section-label" data-i18n="section_itp">ITP — Der Fahrplan</div>
 
   <div class="timeline">
 
@@ -315,10 +345,10 @@
         </div>
         <div class="window-body">
           <h3>Prompt Sales Hackathon</h3>
-          <p>AI-gestützter CRM-Prototyp auf Azure EU. Accounts, Deals, Offers mit Agent-gesteuertem Workflow.</p>
+          <p data-i18n="card_hackathon">AI-gestützter CRM-Prototyp auf Azure EU. Accounts, Deals, Offers mit Agent-gesteuertem Workflow.</p>
           <a href="https://luma.com/aaltoes-7dvo" target="_blank" style="display:inline-flex;align-items:center;gap:6px;margin-top:0.5rem;text-decoration:none;color:var(--text);font-size:0.65rem;border:1px solid rgba(255,255,255,0.2);border-radius:6px;padding:6px 10px;transition:all 0.2s;background:rgba(255,255,255,0.05);" onmouseover="this.style.borderColor='rgba(255,255,255,0.5)';this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)';this.style.background='rgba(255,255,255,0.05)'">
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACUAAAAgCAIAAAAaMSbnAAAGPUlEQVR4nIVXTWxcVxU+P/fe9zz22GADplFV0VAJpwXU2l5YWWSBQsUqlAoUtRsUVeoGVUJIFaLqsqoQPwsWwKIqrLpBSFkgEYVUpRsUK7RJSxCOBQXR4MbKj+O/8fu5957D4trPM2/G7VuM5s179zv3nO8737mDIgJHXyioAECgAAj6MW+OXo6oOrDKHPWeiPR2N0899ghqBKA9Lyvrm63XVDUhIuJInFYwAKCjtkYQu5mNMSphCLVKQAioASEixASUwrSCNTFUdXgrOLqeog9/rjvuiJGiynjm0vI6KAAUVXnjdgkgR6XVKsDA7VH8IWK5u7P4pS/M5rwTvKgikqoEQQYfBd+7eU/QNHDDVI28RtcTQeYfnfvmk6cmMux5D4oAqKpEdGySfv2jc2NsYvStVEbm17o1w1kjYAih2Lm1fj86Z5H2a6AKRPzAxNTDY1UgQDYCyvAJJT2ERdyP16IhRnj8oWMZExsEgBQsvf3Waz+gIGTFKi598UG22V9WP0xPR9azQW70dchfk6UifGV2quNYQIkIACiywc03f/OKQg2KUO/VkD/5ws/qgOX4A3meiwgRpZAJ0FobY7x27Vq7nk2YQ+b7SiRANgbIM+kFAAHlQHlt83Esi5otkzEmy7JWNgBARDHG4XTNcPeIChEUMTrCKHrxly9+/tsvU4B3/vqeirz4i99f2Z4o/vCSFQQGROx0Ooe1OXAAAGDmFjIimlYxReTRLz+WNlwHyWz8xvd+evePrzp2FOoY45/feMKTqesSnQnim9r0G01/YVtcUr9TiEiMsaGdiESk1jBhGUMRYm2t3S193auy/FN7PlprG6yWWEZaDwCYfgktLS1VVZWYT79GRUZc/99tq74zOfnj13/3n7V7q7d2duuwcvNOHWFxcTFttAmZviShDSvW9Def996wyu01IAIAIEQ1Ty88/6s37rOjT5vt8++sgy+UI5IKCLNNoN57ItrY2Ei3s7OzyTyH9UJNsKQoEkWTK0QAkKAIxrDPyLFnL1nc4Y46REA7Scj9iClFOJgtCbBfHGkH1E+Acy4AFmxIARnGjfnOE+dU1VrrnIsxPnvqmZMLX8uA3v33h6rcMJQQmdk555wbWeF9vTRbAIAYowKJzT3wU4vffWrhua1yAxEJEESJraLM8ENnvnruJ0//ECOlPETEmPYcVdWiKIabzfTfMLOIELCOTxubceDpySmQ+Owzxy1XwPDabz8iCr2q+v5zj//zTz/Psu7ly5dTn4nIyZMnVTXP84sXL8Iok9vvv5QsIoYQ0uIA6IylgMSh9rGTFaibnXw851hIAdydyNbcXk/9vU4nT4M1iCAEZorRO2cQAIlUAiICRIWDzokx9rdEVVVLS0u+1/vWI18Xx7d7bylSHURVTzw43c2NaEhUQRRgCB6MMapa1zUyiQgqMHPTFar6wutv04FHDvgZIqbmK1kv3Py7g3yyaz8zJhIiIty6txU6lOXW16oKzqiPSLR/bmBmHwMiWjYhhKR2ay0iVlWVu+ywnsMXit6qd0G2jzkeN0GEVJV2/VSW97Y9gRhDZSQJVUMHkUHUGDAfk7KsQY2x0CuqrJPlzjZEjtBVWZYTne4EiIggZ1fuT/tyEwCOf5be/GBGqrvqPecT6zfeVgECA5TkImtra2fOnLn67pWEPnfiRLfbXV5eJjp0lXY8Zj5//rxz7uzZsyEEkdDhLew0Zy3MeAzCtvBUADRICgoKqoDIzBaRkYyIIJK1WYxqjGmsYEQ8Y8zc3Bwibm1tzczMeO87WPoQsywDIBFxmWG0O3o4BwAg6aI1JRrVDMzFkfyp6urq6qVLl4wx779//fr168vLy2mI79y/c+MffyMiBe0/GzSKa0CatNLT0fzBwaAoioKIrLXz8/MXLlyYnJwkIultZrnVKGW5KQGRB7TdwklSh8HZRP1hACC14/b2NjMzcyoUHLgwy0a1e9cYsvWuJQ6+am002UWTbn8BBuZ7Q0YIYX5+fmVlRVX39vZOnz599erVhYUFEcnz3FZ3YoAYNa/vHj82bVz+r/+uNYjNQEhXjLHfV/e57PeX/gcw6P37nyAgAmQk1ACANHCcTAQ34auqMsa0rPzI83yz7GP++/Qb4Sf+l0jX/wHeChEJto8LMQAAAABJRU5ErkJggg==" alt="click me" style="width:20px;height:17px;image-rendering:pixelated;">
-            <span style="color:rgba(255,255,255,0.7);">click me → Luma Demo</span>
+            <span style="color:rgba(255,255,255,0.7);"><span data-i18n="cta_luma">click me → Luma Demo</span></span>
           </a>
           <div class="window-tags">
             <span class="window-tag">Hackathon</span><span class="window-tag">Azure</span><span class="window-tag">AI</span>
@@ -337,7 +367,7 @@
         </div>
         <div class="window-body">
           <h3>Balboa Website</h3>
-          <p>Launch der Brand-Website. Brand World, Storytelling, erste Produkt-Präsenz.</p>
+          <p data-i18n="card_web">Launch der Brand-Website. Brand World, Storytelling, erste Produkt-Präsenz.</p>
           <div class="window-tags">
             <span class="window-tag">Balboa</span><span class="window-tag">Web</span>
           </div>
@@ -355,7 +385,7 @@
         </div>
         <div class="window-body">
           <h3>V1 Balboa App</h3>
-          <p>App v1: vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.</p>
+          <p data-i18n="card_app">App v1: vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.</p>
           <div class="window-tags">
             <span class="window-tag">Balboa</span><span class="window-tag">App</span><span class="window-tag">AI</span>
           </div>
@@ -373,7 +403,7 @@
         </div>
         <div class="window-body">
           <h3>TestMate Launch</h3>
-          <p>Plattform, die professionelle Tester für den Google Play Closed Test vermittelt. End-to-End: Tester-Matching, Feedback-Loop, Compliance.</p>
+          <p data-i18n="card_testmate_launch">Plattform, die professionelle Tester für den Google Play Closed Test vermittelt. End-to-End: Tester-Matching, Feedback-Loop, Compliance.</p>
           <div class="window-tags">
             <span class="window-tag">TestMate</span><span class="window-tag">Launch</span>
           </div>
@@ -391,7 +421,7 @@
         </div>
         <div class="window-body">
           <h3>Balboa Pricing Tool</h3>
-          <p>Dynamisches Preismodell auf Basis von Produktionskosten, Echtzeit-Competitor-Analyse und Markttrend-Prognose.</p>
+          <p data-i18n="card_pricing">Dynamisches Preismodell auf Basis von Produktionskosten, Echtzeit-Competitor-Analyse und Markttrend-Prognose.</p>
           <div class="window-tags">
             <span class="window-tag">Balboa</span><span class="window-tag">Pricing</span><span class="window-tag">Data</span>
           </div>
@@ -409,7 +439,7 @@
         </div>
         <div class="window-body">
           <h3>Masterarbeit Abgabe</h3>
-          <p>Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
+          <p data-i18n="card_masterabgabe">Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
           Qualitative Studie, min. 6 Experteninterviews. WU Wien.</p>
           <div class="window-tags">
             <span class="window-tag">Masterarbeit</span><span class="window-tag">WU Wien</span>
@@ -428,7 +458,7 @@
         </div>
         <div class="window-body">
           <h3>SED Track Abschluss — Helsinki</h3>
-          <p>Finale Projekt-Präsentation: Website, App, Pricing Tool.<br>
+          <p data-i18n="card_helsinki">Finale Projekt-Präsentation: Website, App, Pricing Tool.<br>
           🎓 Abschluss des ITP-Programms in Helsinki.</p>
           <div class="window-tags">
             <span class="window-tag">ITP</span><span class="window-tag">SED</span><span class="window-tag">Helsinki</span>
@@ -440,12 +470,12 @@
   </div>
 
   <!-- ═══ PROJEKTE ═══ -->
-  <div class="section-label">Projekte</div>
+  <div class="section-label" data-i18n="section_projects">Projekte</div>
 
   <div class="timeline">
 
     <div class="tl-item balboa">
-      <div class="tl-date">laufend</div>
+      <div class="tl-date"><span data-i18n="ongoing">laufend</span></div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -454,7 +484,7 @@
         </div>
         <div class="window-body">
           <h3>Balboa</h3>
-          <p>Nutritional Yeast mit 5 Flavors. Brand World & Visual Identity. Website (W2) → App mit veganen Lifestyle-Tipps (W4) → Pricing Tool mit Competitor-Analyse (W8).</p>
+          <p data-i18n="card_balboa">Nutritional Yeast mit 5 Flavors. Brand World & Visual Identity. Website (W2) → App mit veganen Lifestyle-Tipps (W4) → Pricing Tool mit Competitor-Analyse (W8).</p>
           <div class="window-tags">
             <span class="window-tag">Balboa</span><span class="window-tag">Brand</span><span class="window-tag">Product</span>
           </div>
@@ -463,7 +493,7 @@
     </div>
 
     <div class="tl-item master">
-      <div class="tl-date">Abgabe</div>
+      <div class="tl-date"><span data-i18n="submitted">Abgabe</span></div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -472,7 +502,7 @@
         </div>
         <div class="window-body">
           <h3>Masterarbeit</h3>
-          <p>Forschungsfrage: Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
+          <p data-i18n="card_master">Forschungsfrage: Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>
           Qualitativ, min. 6 Experteninterviews. WU Wien.</p>
           <div class="window-tags">
             <span class="window-tag">Masterarbeit</span><span class="window-tag">WU Wien</span>
@@ -482,7 +512,7 @@
     </div>
 
     <div class="tl-item testmate">
-      <div class="tl-date">Launch</div>
+      <div class="tl-date"><span data-i18n="launched">Launch</span></div>
       <div class="tl-dot"></div>
       <div class="window">
         <div class="window-bar">
@@ -491,7 +521,7 @@
         </div>
         <div class="window-body">
           <h3>TestMate</h3>
-          <p>Plattform für den Google Play Closed Test. Vermittelt qualifizierte Tester — vom Matching über strukturiertes Feedback bis zur Store-Compliance. End-to-End, automatisiert.</p>
+          <p data-i18n="card_testmate">Plattform für den Google Play Closed Test. Vermittelt qualifizierte Tester — vom Matching über strukturiertes Feedback bis zur Store-Compliance. End-to-End, automatisiert.</p>
           <div class="window-tags">
             <span class="window-tag">TestMate</span><span class="window-tag">Google Play</span>
           </div>
@@ -518,6 +548,67 @@
 </div>
 
 <script>
+// i18n
+const L = {
+  de: {
+    sub: "ITP SED Track — 9 Wochen Helsinki",
+    section_itp: "ITP — Der Fahrplan",
+    section_projects: "Projekte",
+    card_hackathon: "AI-gestützter CRM-Prototyp auf Azure EU. Accounts, Deals, Offers mit Agent-gesteuertem Workflow.",
+    card_web: "Launch der Brand-Website. Brand World, Storytelling, erste Produkt-Präsenz.",
+    card_app: "App v1: vegane Lifestyle-Tipps, AI-API-Integration für personalisierte Empfehlungen.",
+    card_testmate_launch: "Plattform, die professionelle Tester für den Google Play Closed Test vermittelt. End-to-End: Tester-Matching, Feedback-Loop, Compliance.",
+    card_pricing: "Dynamisches Preismodell auf Basis von Produktionskosten, Echtzeit-Competitor-Analyse und Markttrend-Prognose.",
+    card_masterabgabe: "Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>Qualitative Studie, min. 6 Experteninterviews. WU Wien.",
+    card_helsinki: "Finale Projekt-Präsentation: Website, App, Pricing Tool.<br>Abschluss des ITP-Programms in Helsinki.",
+    card_balboa: "Nutritional Yeast mit 5 Flavors. Brand World & Visual Identity. Website (W2) → App mit veganen Lifestyle-Tipps (W4) → Pricing Tool mit Competitor-Analyse (W8).",
+    card_master: "Forschungsfrage: Welchen Einfluss haben virtuelle KI-Influencer auf die Kooperationen zwischen Unternehmen und menschlichen Influencern?<br>Qualitative Studie, min. 6 Experteninterviews. WU Wien.",
+    card_testmate: "Plattform für den Google Play Closed Test. Vermittelt qualifizierte Tester — vom Matching über strukturiertes Feedback bis zur Store-Compliance. End-to-End, automatisiert.",
+    cta_luma: "click me → Luma Demo",
+    ongoing: "laufend",
+    submitted: "Abgabe",
+    launched: "Launch"
+  },
+  en: {
+    sub: "ITP SED Track — 9 Weeks Helsinki",
+    section_itp: "ITP — The Roadmap",
+    section_projects: "Projects",
+    card_hackathon: "AI-powered CRM prototype on Azure EU. Accounts, Deals, Offers with agent-driven workflow.",
+    card_web: "Brand website launch. Brand World, storytelling, initial product presence.",
+    card_app: "App v1: vegan lifestyle tips, AI API integration for personalized recommendations.",
+    card_testmate_launch: "Platform connecting professional testers for Google Play Closed Testing. End-to-end: tester matching, feedback loop, compliance.",
+    card_pricing: "Dynamic pricing model based on production costs, real-time competitor analysis, and market trend forecasting.",
+    card_masterabgabe: "What impact do virtual AI influencers have on collaborations between companies and human influencers?<br>Qualitative study, min. 6 expert interviews. WU Vienna.",
+    card_helsinki: "Final project presentation: Website, App, Pricing Tool.<br>ITP program completion in Helsinki.",
+    card_balboa: "Nutritional Yeast with 5 flavors. Brand World & Visual Identity. Website (W2) → App with vegan lifestyle tips (W4) → Pricing Tool with competitor analysis (W8).",
+    card_master: "Research question: What impact do virtual AI influencers have on collaborations between companies and human influencers?<br>Qualitative study, min. 6 expert interviews. WU Vienna.",
+    card_testmate: "Platform for Google Play Closed Testing. Connects qualified testers — from matching through structured feedback to store compliance. End-to-end, automated.",
+    cta_luma: "click me → Luma Demo",
+    ongoing: "ongoing",
+    submitted: "Submitted",
+    launched: "Launch"
+  }
+};
+
+function switchLang(lang) {
+  localStorage.setItem('lang', lang);
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (L[lang] && L[lang][key]) {
+      el.innerHTML = L[lang][key];
+    }
+  });
+  document.getElementById('langSelect').value = lang;
+}
+
+// init
+(function() {
+  const saved = localStorage.getItem('lang') || 'de';
+  document.getElementById('langSelect').value = saved;
+  switchLang(saved);
+})();
+
+// clock
 function tick() {
   const t = new Date();
   document.getElementById('time').textContent = 
